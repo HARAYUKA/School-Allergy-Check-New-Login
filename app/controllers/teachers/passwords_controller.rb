@@ -55,7 +55,6 @@ class Teachers::PasswordsController < Devise::PasswordsController
   # def set_school
   #   @school = School.find_by!(school_url: params[:school_url])
   # end
-  
 
   # def after_resetting_password_path_for(resource)
   #   super(resource)
