@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  
-  
+
+
 
   root 'static_pages#top'
 
@@ -19,8 +19,8 @@ Rails.application.routes.draw do
 
 
   # 先生画面
-  devise_for :teachers, skip: 'sessions', controllers: {
-    passwords:     'teachers/passwords',
+  devise_for :teachers, skip: [:sessions, :passwords], controllers: {
+    # passwords:     'teachers/passwords',
     registrations: 'teachers/registrations',
     # omniauth_callbacks: "teachers/omniauth_callbacks"
   }
@@ -28,6 +28,10 @@ Rails.application.routes.draw do
     devise_scope :teacher do
       get 'teachers/sign_in', to: 'teachers/sessions#new', as: :new_teacher_session
       post 'teachers/sign_in', to: 'teachers/sessions#create', as: :teacher_session
+      get 'teachers/password/new', to: 'teachers/passwords#new', as: :new_teacher_password
+      post 'teachers/password', to: 'teachers/passwords#create', as: :teacher_password
+      get 'teachers/password/edit', to: 'teachers/passwords#edit', as: :edit_teacher_password
+      put 'teachers/password', to: 'teachers/passwords#update', as: :update_teacher_password
     end
   end
   devise_scope :teacher do
@@ -48,7 +52,7 @@ Rails.application.routes.draw do
         get 'one_month_index'
         get 'lunch_check'
         patch 'update_lunch_check'
-      end   
+      end
       member do
         get 'lunch_check_info'
         patch 'update_lunch_check_info'
@@ -93,15 +97,15 @@ Rails.application.routes.draw do
 
   resource :teachers do
     resources :admin_alergy_checks, only: [:show] do
-      collection do  
+      collection do
         get 'lunch_check'
         patch 'update_lunch_check'
-      end   
+      end
       member do
         get 'lunch_check_info'
         patch 'update_lunch_check_info'
         get 'lunch_check_all'
-        patch 'update_lunch_check_all' 
+        patch 'update_lunch_check_all'
       end #collection do end
     end #resouces do end
   end #teachers do end
